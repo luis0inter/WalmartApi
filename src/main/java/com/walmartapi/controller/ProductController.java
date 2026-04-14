@@ -28,4 +28,16 @@ public class ProductController {
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity updateProduct(@PathVariable Long id, @RequestBody Product product){
+        Product updatedProduct = productService.updateProduct(id, product);
+        return ResponseEntity.ok("El producto "+updatedProduct.getName()+" ha sido actualizado");
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteProduct(@PathVariable Long id){
+        Product futureDeletedProduct = productService.getProductById(id);
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("El producto "+futureDeletedProduct.getName()+"ha sido eliminado");
+    }
 }

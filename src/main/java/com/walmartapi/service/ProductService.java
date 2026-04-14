@@ -35,4 +35,21 @@ public class ProductService {
 
         return productMapper.mapToDto(product.get());
     }
+
+    public Product updateProduct(Long id, Product product){
+        Optional<ProductEntity> productOld = productRepository.findById(id);
+        if(productOld.isPresent()){
+            ProductEntity updatedProduct = productOld.get();
+            updatedProduct.setName(product.getName());
+            updatedProduct.setDescription(product.getDescription());
+            updatedProduct.setPrice(product.getPrice());
+            productRepository.save(updatedProduct);
+            return productMapper.mapToDto(updatedProduct);
+        }
+        throw new NotFound("Product not found");
+    }
+
+    public void deleteProduct(Long id){
+        productRepository.deleteById(id);
+    }
 }
