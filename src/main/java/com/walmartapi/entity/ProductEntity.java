@@ -1,6 +1,7 @@
 package com.walmartapi.entity;
 
 import jakarta.persistence.*;
+import jdk.jfr.Category;
 import lombok.Data;
 
 @Entity
@@ -15,6 +16,12 @@ public class ProductEntity {
     private String name;
     private String description;
     private Double price;
+
+    @ManyToOne@JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
+    @OneToOne(cascade = CascadeType.ALL)@JoinColumn(name = "inventory_id", unique = true)
+    private ProductInventoryEntity inventory;
 
     public void setPrice(Double price) {
         this.price = price;

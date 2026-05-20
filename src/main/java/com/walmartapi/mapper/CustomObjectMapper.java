@@ -5,5 +5,5 @@ import com.walmartapi.model.Product;
 
 public interface CustomObjectMapper<E, D> {
     E mapToEntity(D dto);
-    D mapToDto(ProductEntity entity);
+    D mapToDto(E entity);
 }
