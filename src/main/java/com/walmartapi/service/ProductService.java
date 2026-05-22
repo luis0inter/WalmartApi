@@ -1,5 +1,6 @@
 package com.walmartapi.service;
 
+import com.walmartapi.entity.CategoryEntity;
 import com.walmartapi.entity.ProductEntity;
 import com.walmartapi.exception.NotFound;
 import com.walmartapi.mapper.CustomObjectMapper;
@@ -13,14 +14,19 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CustomObjectMapper<ProductEntity, Product> productMapper;
+    private final CategoryService categoryService;
 
-    public ProductService(ProductRepository productRepository, CustomObjectMapper<ProductEntity, Product> productMapper){
+    public ProductService(ProductRepository productRepository, CategoryService categoryService,CustomObjectMapper<ProductEntity, Product> productMapper){
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
         this.productMapper = productMapper;
     }
 
     public Product saveProduct(Product product){
+        CategoryEntity categoryEntity = categoryService.findEntityById(product.getCategoryId());
         ProductEntity newProduct = productMapper.mapToEntity(product);
+        //AQUI
+        newProduct.setCategory(categoryEntity);
         ProductEntity savedEntity = productRepository.save(newProduct);
 
         return productMapper.mapToDto(savedEntity);

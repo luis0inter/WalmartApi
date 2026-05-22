@@ -28,4 +28,12 @@ public class CategoryService {
         }
         return categoryMapper.mapToDto(foundCategory.get());
     }
+
+    public CategoryEntity findEntityById(Long id){
+        Optional<CategoryEntity> foundCategory = categoryRepository.findById(id);
+        if(foundCategory.isEmpty()){
+            throw new NotFound("Categoria no encontrada");
+        }
+        return foundCategory.get();
+    }
 }
